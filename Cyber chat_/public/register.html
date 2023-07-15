@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html class="h-100" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Quixlab - Bootstrap Admin Dashboard Template by Themefisher.com</title>
+    <!-- Favicon icon -->
+    <script src="https://code.jquery.com/jquery-3.6.2.slim.min.js" integrity="sha256-E3P3OaTZH+HlEM7f1gdAT3lHAn4nWBZXuYe89DFg2d0=" crossorigin="anonymous"></script>
+
+    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link href="./plugins/toastr/css/toastr.min.css" rel="stylesheet">
+    <link href="./plugins/sweetalert/css/sweetalert.css" rel="stylesheet">
+    
+</head>
+
+<body class="h-100">
+    
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    
+
+
+
+    <div class="login-form-bg h-100">
+        <div class="container h-100">
+            <div class="row justify-content-center h-100">
+                <div class="col-xl-6">
+                    <div class="form-input-content">
+                        <div class="card login-form mb-0">
+                            <!-- <div class="nav-header" style="background-color: black;">
+                                <div class="brand-logo" >
+                                    <img src="./images/Kabaddi.png" alt="">
+                                </div>
+                            </div> -->
+                            <div class="card-body pt-5">
+                                
+                                    <a class="text-center" href="index.html"> <h4> Sign up</h4></a>
+        
+                                <div class="mt-5 mb-5 login-input">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="center" placeholder="User Name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="email" placeholder="Email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password"  id="Pass" class="form-control" placeholder="Password" required>
+                                    </div>
+                                    <input type="file" multiple />
+                                    <button  class="btn login-form__btn submit w-100 mt-5" onclick="handleUpload()">Sign Up</button>
+                                   
+                                    
+                                </div>
+                                
+                                
+                                    <p class="mt-5 login-form__footer">Have account <a href="login.html" class="text-primary">Sign Up </a> now</p>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // localStorage.removeItem("cyberchat");
+        function handleUpload() {
+           var usr=$("#center").val();
+            var pass=$("#Pass").val()
+            var mail=$("#email").val()
+          const input = document.querySelector("input[type=file]");
+          const files = input.files;
+ 
+ 
+   
+
+     if(usr=='' || usr.length<=5){
+
+        
+
+            toastr.warning("Please Enter valid user name having more that 5 letters", "User name  Error", { positionClass: "toast-top-right", timeOut: 5e3, closeButton: !0, debug: !1, newestOnTop: !0, progressBar: !0, preventDuplicates: !0, onclick: null, showDuration: "300", hideDuration: "1000", extendedTimeOut: "1000", showEasing: "swing", hideEasing: "linear", showMethod: "fadeIn", hideMethod: "fadeOut", tapToDismiss: !1 }) 
+        return;
+               
+     }
+ 
+ if(mail!=''|| mail==''){
+        var epat=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if(!epat.test(mail)){
+            toastr.warning("Please Enter a valid Mail", "Mail  Error", { positionClass: "toast-top-right", timeOut: 5e3, closeButton: !0, debug: !1, newestOnTop: !0, progressBar: !0, preventDuplicates: !0, onclick: null, showDuration: "300", hideDuration: "1000", extendedTimeOut: "1000", showEasing: "swing", hideEasing: "linear", showMethod: "fadeIn", hideMethod: "fadeOut", tapToDismiss: !1 }) 
+           return;
+        }
+               
+     }
+    if(pass==''){
+       
+
+       toastr.warning("Please Enter valid Paaword having more that 5 characters", "Password  Error", { positionClass: "toast-top-right", timeOut: 5e3, closeButton: !0, debug: !1, newestOnTop: !0, progressBar: !0, preventDuplicates: !0, onclick: null, showDuration: "300", hideDuration: "1000", extendedTimeOut: "1000", showEasing: "swing", hideEasing: "linear", showMethod: "fadeIn", hideMethod: "fadeOut", tapToDismiss: !1 }) 
+   return;
+      
+   
+}
+     if (files.length != 1) {
+      
+        toastr.warning("Please upload  atleast 1 images for efficient face recognition(Beta test)", "File  Error", { positionClass: "toast-top-right", timeOut: 5e3, closeButton: !0, debug: !1, newestOnTop: !0, progressBar: !0, preventDuplicates: !0, onclick: null, showDuration: "300", hideDuration: "1000", extendedTimeOut: "1000", showEasing: "swing", hideEasing: "linear", showMethod: "fadeIn", hideMethod: "fadeOut", tapToDismiss: !1 }) 
+      return;
+    }
+          const formData = new FormData();
+  
+          for (let i = 0; i < files.length; i++) {
+            formData.append("photos", files[i]);
+          }
+          var uid=''
+          var digits='1234567890'
+          
+          for (let j = 0; j < 6; j++) {
+              uid += digits[Math.floor(Math.random() * 10)];
+            }
+            const randomNum =uid;
+          const url = `/upload?folder=${randomNum}`;
+          fetch(url, {
+            method: "POST",
+            body: formData,
+          })
+            .then((res) => res.text())
+            .then(function(data){
+               
+                if(data=='OK'){
+                    $.ajax({
+                                url:"http://localhost:6500/signinsert",
+                                type:"post",
+                                dataType: "json",
+                                data: { Usr:usr,usid:uid,passwd:pass,Mail:mail},
+                                success: function(res){
+                                
+                                    if(res.status==200){
+                                        swal("Sign Up Successfully")
+                                        setTimeout(function(){
+                                            window.location.href='login.html'
+
+                                        
+                                        },1000)
+                                   
+                                    }
+                                    else{
+                                        alert("some error occured")
+                                    }
+
+                                }
+                            })
+
+
+                }
+                
+            
+            })
+            .catch((err) => console.log(err));
+        }
+      </script>
+    <script>
+        $(document).ready(function(){
+
+         
+
+
+            $("#signup").on("click",function(){
+               let center= $("#center").val()
+                let area=$("#area").val()
+                let pass=$("#Pass").val()
+                if(center!='' && area!='' && pass!=''){
+                  
+
+                }
+                else{
+                    alert('Please Enter Correct Details')
+                }
+            })
+
+        })
+
+    </script>
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="plugins/common/common.min.js"></script>
+    <script src="js/custom.min.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/gleek.js"></script>
+    <script src="js/styleSwitcher.js"></script>
+    <script src="./plugins/toastr/js/toastr.min.js"></script>
+    <script src="./plugins/toastr/js/toastr.init.js"></script>
+    <script src="./plugins/sweetalert/js/sweetalert.min.js"></script>
+    <script src="./plugins/sweetalert/js/sweetalert.init.js"></script>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.2.slim.min.js" integrity="sha256-E3P3OaTZH+HlEM7f1gdAT3lHAn4nWBZXuYe89DFg2d0=" crossorigin="anonymous"></script>
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" >
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" >
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="chatstyle.css">
+    
+    <!-- theme meta -->
+  
+     <title>User Identification </title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <!-- Pignose Calender -->
+    <link href="./plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <!-- Chartist -->
+    <link rel="stylesheet" href="./plugins/chartist/css/chartist.min.css">
+    <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <!-- Custom Stylesheet -->
+    <link href="./plugins/toastr/css/toastr.min.css" rel="stylesheet">
+    <link href="./plugins/sweetalert/css/sweetalert.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-2.17.1.min.js"></script>
+    <script src="plotly-2.17.1.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript">  </script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.2.slim.min.js" integrity="sha256-E3P3OaTZH+HlEM7f1gdAT3lHAn4nWBZXuYe89DFg2d0=" crossorigin="anonymous"></script> -->
+    <link href="style.css" rel="stylesheet">
+    <!-- <script defer async src="./js/script.js"></script> -->
+<style>
+     #reader__scan_region{
+                                    width:550px;
+                                    height:350px;
+                                  }
+                                  #reader__camera_permission_button{
+                                  padding:10px;
+                                  font-size:22px;
+                                  }
+                                  #reader__dashboard_section_swaplink{
+                                  display:none;
+                                  }
+                                  #container{
+                                    display:flex;
+                                    justify-content:center;
+                                    align-items:center;
+                                   
+                                  
+                                  }
+                                  #reader{
+                                      width:450px;
+                                      height:350px;
+                                      border:1px solid black;
+                                      border-radius:15px;
+                                  }
+                                  
+</style>
+    
+
+</head>
+<body>
+    <!-- <button id="cool">hhhhh</button> -->
+    <div class="modal fade" id="example1ModalCenter" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="container">
+                        <div id="reader"></div>
+                        </div>
+                          
+                </div>
+              
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModalCenter" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Email</label>
+                            <div class="col-sm-9">
+                                <input id="email"type="text" readonly="readonly" class="form-control-plaintext" value="email@example.com">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Username</label>
+                            <div class="col-sm-9">
+                                <input  id="username" type="text" class="form-control" placeholder="Username">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Password</label>
+                            <div class="col-sm-9">
+                                <input  id="password" type="text" class="form-control" placeholder="Password">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="savedata">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header" style="background-color: black;">
+            <div class="brand-logo" >
+                <a href="index.html">
+                    <b class="logo-abbr"><img src="images/Kabaddi.png" alt=""> </b>
+                    <span class="logo-compact"><img src="./images/Kabaddi.png" alt=""></span>
+                    <span class="brand-title">
+                        <img id="uidpng"src="images/Kabaddi.png" alt="">
+                    </span>
+                </a>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div class="header">    
+            <div class="header-content clearfix">
+                
+                <div class="nav-control">
+                    <div class="hamburger">
+                        <span class="toggle-icon"><i class="icon-menu"></i></span>
+                    </div>
+                    <button type="button" id="usrprof" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Profile</button>
+                    <!-- <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#example1ModalCenter">scan</button> -->
+                </div>
+             
+                <div class="header-right">
+                    <ul class="clearfix">
+                       
+                        
+
+                        <li class="icons dropdown">
+                            <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
+                                <span class="activity active"></span>
+                               
+                                <img src="" id="ppic" height="40" width="40" alt="">
+                            </div>
+                            <div class="drop-down dropdown-profile   dropdown-menu">
+                                <div class="dropdown-content-body">
+                                    <ul>
+                                        
+                                        <li><a href="" id="logout"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div class="nk-sidebar">           
+            <div class="nk-nav-scroll">
+                <ul class="metismenu" id="menu">
+                    <div class="input-group" >
+                        <input  id="usrsearch" type="text" placeholder="Search..." name="" class="form-control search">
+             
+                        <div class="input-group-prepend">
+                            <span class="input-group-text search_btn"><i class="fas fa-close"></i></span>
+                        </div>
+
+                    </div>
+                    <ul  id="srcres">
+                        
+
+                    </ul>
+                    <!-- <li class="nav-label"><a href="./index.html">Dashboard</a></li>
+ 
+                    <li class="nav-label"><span class="nav-text"><a href="./insert.html">Insert</a></span></li>
+                    <li class="nav-label"><span class="nav-text"><a href="./search.html">Search</a></span></li>
+                    <li class="nav-label"><span class="nav-text"><a href="./Scan.html">Scan QR</a></span></li> -->
+
+ 
+
+
+
+
+                </ul>
+            </div>
+        </div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            <div class="container-fluid mt-3">
+                <!-- <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card gradient-1">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Total Registration</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white" id="users">4565</h2>
+                                    
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card gradient-2">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Total Male</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white" id="tmale">$ 8541</h2>
+                                    
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-male"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card gradient-4">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Total Female</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white" id="tfemale">0</h2>
+                                    <p class="text-white mb-0"></p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-female"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card gradient-3">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Total Trans</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white" id="ttrans">0</h2>
+                                    <p class="text-white mb-0"></p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-transgender-alt"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row" id="chat-head">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                          
+                                <div id="tester" > <div class="card-header msg_head">
+                                    <div class="d-flex bd-highlight">
+                                        <div class="img_cont">
+                                            <img id="profhead" src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                                            
+                                        </div>
+                                        <div class="user_info">
+                                            <span id="userhd"> --------</span>
+                                            <p id="userstat">---</p>
+                                        </div>
+                                        <!-- <div class="video_cam">
+                                            <span><i class="fas fa-video"></i></span>
+                                            <span><i class="fas fa-phone"></i></span>
+                                        </div> -->
+                                    </div>
+                                    <span id="action_menu_btn">=======</span>
+                                    <!-- <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
+                                    <div class="action_menu">
+                                        <ul>
+                                            <li><i class="fas fa-user-circle"></i> View profile</li>
+                                            <li><i class="fas fa-users"></i> Add to close friends</li>
+                                            <li><i class="fas fa-plus"></i> Add to group</li>
+                                            <li><i class="fas fa-ban"></i> Block</li>
+                                        </ul>
+                                    </div> -->
+                                </div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    
+                                        
+                                        <div class="card-body">
+                                            <!-- <div class="container-fluid h-100"> -->
+                                                
+
+                                                <div class="card-body msg_card_body">
+                                                    <!-- <div class="d-flex justify-content-start mb-4">
+                                                        <div class="img_cont_msg">
+                                                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
+                                                        </div>
+                                                        <div class="msg_cotainer">
+                                                            Hi, how are you samim?
+                                                            <span class="msg_time">8:40 AM, Today</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-end mb-4">
+                                                        <div class="msg_cotainer_send">
+                                                            Hi Khalid i am good tnx how about you?
+                                                            <span class="msg_time_send">8:55 AM, Today</span>
+                                                        </div>
+                                                        <div class="img_cont_msg">
+                                                    <img src="https://avatars.hsoubcdn.com/ed57f9e6329993084a436b89498b6088?s=256" class="rounded-circle user_img_msg">
+                                                        </div>
+                                                    </div> -->
+                                                   
+                                                    
+                                                    
+                                                </div>
+
+
+
+
+
+
+                                                <div class="card-footer" style="margin-top: 34px;">
+                                                    <div class="input-group">
+                                                        <input type="text" data-recv="" data-chat="" id="chatcontent"class="form-control">
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown">Send</button>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item" id="sd"onclick="insert(0)">Direct</a> 
+                                                                <a class="dropdown-item" id="sd" onclick="insert(1)">Secure</a>
+                                                                 
+                                                               
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                               
+                                        </div>
+                                    
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           
+                
+
+                
+                
+
+
+               
+
+                
+
+                
+
+
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        
+        
+        <!--**********************************
+            Footer start
+        ***********************************-->
+       
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+     <video id="videoInput" style="display: none;"  width="720" height="550" muted controls>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="plugins/common/common.min.js"></script>
+    <script src="js/custom.min.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/gleek.js"></script>
+    <script src="js/styleSwitcher.js"></script>
+
+    <!-- Chartjs -->
+    <script src="./plugins/chart.js/Chart.bundle.min.js"></script>
+    <!-- Circle progress -->
+    <script src="./plugins/circle-progress/circle-progress.min.js"></script>
+    <!-- Datamap -->
+    <script src="./plugins/d3v3/index.js"></script>
+    <script src="./plugins/topojson/topojson.min.js"></script>
+    <script src="./plugins/datamaps/datamaps.world.min.js"></script>
+    <!-- Morrisjs -->
+    <script src="./plugins/raphael/raphael.min.js"></script>
+    <script src="./plugins/morris/morris.min.js"></script>
+    <!-- Pignose Calender -->
+    <script src="./plugins/moment/moment.min.js"></script>
+    <script src="./plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+    <!-- ChartistJS -->
+    <script src="./plugins/chartist/js/chartist.min.js"></script>
+    <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+
+
+    <script src="./plugins/sweetalert/js/sweetalert.min.js"></script>
+    <script src="./plugins/sweetalert/js/sweetalert.init.js"></script>
+    <script src="./js/dashboard/dashboard-1.js"></script>
+  
+    <script src="./plugins/toastr/js/toastr.min.js"></script>
+    <script src="./plugins/toastr/js/toastr.init.js"></script>
+    <script src="file.js"></script>
+    <script>
+
+var interval1;
+
+           function loadbox(g,reciever){
+          
+            // alert(99)
+
+           
+
+           let chatid=g;
+           let recv=reciever;
+
+
+           $.ajax({
+        url:"http://localhost:6500/userdetails",
+        type:"post",
+        dataType: "json",
+        data: { uid:recv
+        },
+       
+        success: function(res){
+            if(res.status==200){
+               $("#profhead").attr("src",`/uploads/${recv}/1.png`);
+                $("#userhd").html(`${res.response[0].USERNAME}`);
+                $("#action_menu_btn").html(`${res.response[0].EMAILID}`);
+                if(res.response[0].USER_STATUS==1){
+                    $("#userstat").html(`ONLINE<br><span class="online_icon"></span>`);
+                }
+                else{
+
+                    $("#userstat").html(`OFFLINE`);
+
+                }
+                
+            }
+            else if(res.status==500){
+                alert("some error q")
+            }
+        }
+    })
+
+    if(g==0){
+        var catid=''
+          var digits='1234567890'
+          
+          for (let j = 0; j < 4; j++) {
+             catid += digits[Math.floor(Math.random() * 10)];
+            }
+            $("#chatcontent").data("chat",catid);
+           $("#chatcontent").data("recv",reciever);
+clearInterval(interval1);
+ interval1=setInterval(function(){
+    var reciver=$("#chatcontent").data("recv");
+    var chtid=$("#chatcontent").data("chat");
+    loadbox(chtid,reciver);
+},2000);
+           $(".msg_card_body").html('');
+           $(".msg_card_body").append(`
+                                 <div class="d-flex justify-content-start mb-4">
+                                    
+                                    <div class="msg_cotainer">
+                                       Start messaging
+                                        <span style="color:black" class="msg_time"> YES...........</span>
+                                        </div>
+                                </div>`)
+             
+}else{
+
+
+
+           $("#chatcontent").data("chat",chatid);
+           $("#chatcontent").data("recv",reciever);
+            $.ajax({
+                url:"http://localhost:6500/chatsbox",
+                type:"post",
+                dataType: "json",
+                data: { Chat:`${chatid}`
+                },
+               
+                success: function(res){
+                    if(res.status==200){
+                        console.log(res.response)
+                        $(".msg_card_body").html('');
+                        for (let i of res.response){
+                            if(i.SENDER==localStorage.getItem("cyberchat")){
+                                $(".msg_card_body").append(`
+                                 <div class="d-flex justify-content-start mb-4">
+                                    
+                                    <div class="msg_cotainer">
+                                        ${i.CHAT_CONTENT}
+                                        <span style="color:black" class="msg_time"> ${i.CHAT_TIMESTAMP}</span>
+                                        </div>
+                                </div>`)
+
+                            }
+                            else{
+                                if(i.CHAT_SECURE==1){
+                                    // alert(i.CHATID+" "+i.MESSAGE_ID)
+                                    $(".msg_card_body").append(`<div id="scanfacep" class="d-flex justify-content-end mb-4">
+                                                        <div id="scanface" onClick="scan(${i.CHATID},${i.MESSAGE_ID})" data-mid=${i. MESSAGE_ID} class="msg_cotainer_send">
+                                                            <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#example1ModalCenter">scan</button>
+                                                            <span style="color:black" class="msg_time_send">${i.CHAT_TIMESTAMP}</span>
+                                                            </div>
+                                                  
+                                                    </div>`)
+                                }else{
+
+                                
+                                $(".msg_card_body").append(`<div class="d-flex justify-content-end mb-4">
+                                                        <div data-mid=${i. MESSAGE_ID} class="msg_cotainer_send">
+                                                            ${i.CHAT_CONTENT}
+                                                            <span style="color:black" class="msg_time_send">${i.CHAT_TIMESTAMP}</span>
+                                                            </div>
+                                                  
+                                                    </div>`)
+                                                }
+                            }
+                        //     // alert(i.USERNAME)
+                        //     $("#menu").append(
+                        //     `<li class="nav-label" id="chats" data-chatid=${i.CHATID}><span class="nav-text"><a>${i.USERNAME}</a></span></li>`
+                        //     );
+                        }
+                        clearInterval(interval1);
+ interval1=setInterval(function(){
+    var reciver=$("#chatcontent").data("recv");
+    var chtid=$("#chatcontent").data("chat");
+    loadbox(chtid,reciver);
+// console.log(777)
+},2000);
+                        
+                        
+                    }
+                    else if(res.status==500){
+                        // $("#menu").append(
+                        //     `<li class="nav-label"><span class="nav-text"><a>Chats not Available</a></span></li>`
+                        //     );
+                        alert("55");
+                    }
+                }
+            })
+        }
+        }
+// Create a new Date object
+var timestamp = new Date();
+
+// Define the suffix for the day (e.g., "st", "nd", "rd", or "th")
+var daySuffix = getDaySuffix(timestamp.getDate());
+
+// Define an array of month names
+var monthNames = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
+// Format the timestamp as "day suffix month year"
+var formattedTimestamp = timestamp.getDate() + daySuffix + " " + monthNames[timestamp.getMonth()] + " " + timestamp.getFullYear();
+
+// Display the formatted timestamp
+// console.log(formattedTimestamp);
+
+// Helper function to get the correct suffix for the day
+function getDaySuffix(day) {
+  if (day >= 11 && day <= 13) {
+    return "th";
+  } else {
+    switch (day % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  }
+}
+
+
+
+        function insert(scure){
+            var msgid=''
+          var digits='123456789'
+          
+          for (let j = 0; j < 6; j++) {
+              msgid += digits[Math.floor(Math.random() * 9)];
+            }
+           var chatcont= $("#chatcontent").val();
+           var reciver=$("#chatcontent").data("recv");
+           var chtid=$("#chatcontent").data("chat");
+           var timetamp=formattedTimestamp;
+
+        $.ajax({
+        url:"http://localhost:6500/insertchat",
+        type:"post",
+        dataType: "json",
+        data: { msid:msgid,Sender:`${localStorage.getItem("cyberchat")}`,Reciever:reciver,cont:chatcont,secure:scure,time:timetamp,chid:chtid
+        },
+       
+        success: function(res){
+            if(res.status==200){
+               
+                loadbox(chtid,reciver);
+                $("#chatcontent").val('');
+                
+            }
+            else if(res.status==500){
+                alert("some error w")
+            }
+        }
+    })
+
+        }
+
+
+
+
+
+    
+//             $("#videoInput").css({"display":"block"});
+
+
+//  const video = document.getElementById('videoInput')
+
+// Promise.all([
+//     faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
+//     faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+//     faceapi.nets.ssdMobilenetv1.loadFromUri('/models') //heavier/accurate version of tiny face detector
+// ]).then(start)
+
+// function start() {
+//     document.body.append('Models Loaded')
+
+//     navigator.getUserMedia(
+//         { video:{} },
+//         stream => video.srcObject = stream,
+//         err => console.error(err)
+//     )
+
+//     console.log('video added')
+//     recognizeFaces()
+// }
+
+// async function recognizeFaces() {
+
+//     const labeledDescriptors = await loadLabeledImages()
+//     console.log(labeledDescriptors)
+//     const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.7)
+
+
+//     video.addEventListener('play', async () => {
+//         console.log('Playing')
+
+//         setInterval(async () => {
+//             const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors()
+
+//             const resizedDetections = faceapi.resizeResults(detections, { width: video.width, height: video.height })
+
+//             const results = resizedDetections.map((d) => {
+//                 return faceMatcher.findBestMatch(d.descriptor)
+//             })
+//             results.forEach( (result, i) => {
+//                 console.log(result.toString())
+//             })
+//         }, 100)
+//     })
+// }
+
+
+// function loadLabeledImages() {
+//     $.ajax({
+//         url:"http://localhost:6500/userpictures",
+//         type:"post",
+//         dataType: "json",
+//         data: { uid:user
+//         },
+       
+//         success: function(res){
+//       if(res.status==200){
+               
+//                 const labels = [`${user}`] // for WebCam
+//     return Promise.all(
+//         labels.map(async (label)=>{
+//             const descriptions = []
+//             for(let i of res.response) {
+//                 const img = await faceapi.fetchImage(`../uploads/${label}/${i}`)
+//                 const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
+//                 console.log(label + i + JSON.stringify(detections))
+//                 descriptions.push(detections.descriptor)
+//             }
+//             document.body.append(label+' Faces Loaded | ')
+//             return new faceapi.LabeledFaceDescriptors(label, descriptions)
+//         })
+//     )
+                
+//             }
+//             else if(res.status==500){
+//                 alert("Failet")
+              
+//             }
+//         }
+//     })
+   
+// }
+
+    </script>
+    <script>
+        let mssgid=''
+        let chaatid=''
+            function scan(chatid,msgid){
+                mssgid=msgid
+                chaatid=chatid
+                alert(msgid)
+                alert(chaatid)
+               
+                let html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader",
+     { facingMode: "environment" },
+      { fps: 9, qrbox: {width: 50, height: 50} },
+      /* verbose= */ false);
+      html5QrcodeScanner.render(qrCodeSuccessCallback);
+
+      document.getElementById("dismiss-popup-btn").addEventListener("click",function(){
+      // document.getElementById("open-popup-btn").style.display = "block";
+      document.getElementsByClassName("popup")[0].classList.remove("active");
+    });
+  
+}
+                
+   
+        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+            // alert(decodedText)
+        
+            $.ajax({
+        
+        url:`http://localhost:6500/hashsearch`,
+        type: 'post',
+        dataType: "json",
+        data: { chat:chaatid,msgid:mssgid,text:decodedText,user:localStorage.getItem('cyberchat')
+        },
+   
+    
+        success: function(res){
+          
+            if(res.status==200){
+                // alert(res.response)
+                // alert('yoyoy')
+                var reciver=$("#chatcontent").data("recv");
+              var chtid=$("#chatcontent").data("chat");
+                loadbox(chtid,reciver);
+                // $("#example1ModalCenter").css({"display":"none"})
+                swal(`Descryption successfull ` ,"note:Please close Camera by clocking ","success")
+            }
+            else if(res.status==500){
+                // alert("fail")
+                swal("Not Found", "Invalid QR ", "error");
+            }
+
+        }
+        })
+   
+  
+        
+    // };
+}
+
+    
+ 
+    
+  
+      </script>
+     
+</body>
+
+</html>
+

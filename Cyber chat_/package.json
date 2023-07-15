@@ -1,0 +1,26 @@
+{
+  "name": "face-recognition-video",
+  "version": "1.0.0",
+  "description": "Face Reconition from Video using face-api.js",
+  "main": "app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js -L -e js,html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mansoor Ahmed",
+  "license": "ISC",
+  "dependencies": {
+    "@u4/opencv4nodejs": "^6.5.1",
+    "axios": "^1.4.0",
+    "body-parser": "^1.20.2",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
